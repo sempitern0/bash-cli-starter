@@ -19,9 +19,13 @@ done
 
 main() {
     parse_args "$@"
+
+    # -----------------------------------------------------------------------------
+    # Application Entry Point
+    # Place your main script logic or library module invocations below.
+    # -----------------------------------------------------------------------------
 }
 
 
 trap 'cleanup 130' INT TERM
-
 main "$@"
