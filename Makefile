@@ -1,20 +1,20 @@
-.PHONY: help lint chmod setup
+.PHONY: help lint chmod setup install-shellcheck install-hooks
 
-# Default target when running just 'make'
 .DEFAULT_GOAL := help
 
-# Find main script and all library modules
-SCRIPTS := $(wildcard *.sh)
+# Dynamically find any .sh script in the root directory and inside lib/
+SCRIPTS := $(wildcard *.sh) $(wildcard lib/*.sh)
 
 help: ## Show this help message
 	@echo "Usage: make [target]"
 	@echo ""
 	@echo "Available targets:"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}'
 
-chmod: ## Make main script executable (chmod +x)
-	@chmod +x main.sh
-	@echo "✓ Granted execution permissions to main.sh"
+chmod: ## Make main script and hook executable
+	@chmod +x *.sh 2>/dev/null || true
+	@chmod +x hooks/pre-commit 2>/dev/null || true
+	@echo "✓ Granted execution permissions to scripts"
 
 install-shellcheck: ## Install ShellCheck automatically if missing
 	@if ! command -v shellcheck >/dev/null 2>&1; then \
@@ -35,9 +35,15 @@ install-shellcheck: ## Install ShellCheck automatically if missing
 
 lint: install-shellcheck ## Run ShellCheck on all .sh scripts
 	@echo "Fixing line endings (CRLF -> LF)..."
-	@sed -i 's/\r$$//' .shellcheckrc $(SCRIPTS)
+	@sed -i 's/\r$$//' .shellcheckrc $(SCRIPTS) 2>/dev/null || true
 	@echo "Running ShellCheck..."
 	@shellcheck $(SCRIPTS)
 	@echo "✓ ShellCheck passed cleanly!"
-	
-setup: chmod lint ## Set permissions and run linter in one step
+
+install-hooks: ## Install Git pre-commit hook into .git/hooks
+	@mkdir -p .git/hooks
+	@cp hooks/pre-commit .git/hooks/pre-commit
+	@chmod +x .git/hooks/pre-commit
+	@echo "✓ Git pre-commit hook installed successfully!"
+
+setup: chmod install-hooks lint ## Run full setup: permissions, hooks, and linter

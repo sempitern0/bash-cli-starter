@@ -4,6 +4,7 @@
 VERBOSE=false
 FORCE=false
 
+# shellcheck disable=SC2317
 cleanup() {
     echo ""
     msg_error "Script execution interrupted by user (Ctrl + C). Cleaning up..."
