@@ -57,6 +57,14 @@ make setup
 
 Once installed, the pre-commit hook runs automatically whenever you execute `git commit`. It converts line endings to `LF` and verifies all staged `.sh` files with ShellCheck. If any linting errors occur, the commit is blocked until resolved.
 
+## 🤝 Contributing
+
+Contributions are welcome! Please read the [Contributing Guide](CONTRIBUTING.md) before submitting a pull request.
+
+## 🛡️ Security
+
+If you discover a security vulnerability, please review our [Security Policy](SECURITY.md) to report it safely.
+
 ## 📄 License
 
 Distributed under the MIT License. See `LICENSE` for more information.
