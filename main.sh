@@ -3,8 +3,8 @@ set -euo pipefail
 # shellcheck disable=SC1090,SC1091
 
 ## Works on Linux/macOS
-declare -r CURRENT_DIR
-CURRENT_DIR=$(dirname -- "$(readlink -f -- "$0")")
+CURRENT_DIR="$(cd -- "$(dirname -- "$0")" && pwd -P)"
+readonly CURRENT_DIR
 
 ## Load all the modules
 source "${CURRENT_DIR}/lib/common.sh"
@@ -19,6 +19,7 @@ done
 
 main() {
     parse_args "$@"
+
 
     # -----------------------------------------------------------------------------
     # Application Entry Point
