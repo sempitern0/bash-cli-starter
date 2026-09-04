@@ -13,7 +13,7 @@ help: ## Show this help message
 
 chmod: ## Make main script and hook executable
 	@chmod +x *.sh 2>/dev/null || true
-	@chmod +x hooks/pre-commit 2>/dev/null || true
+	@chmod +x githooks/pre-commit 2>/dev/null || true
 	@echo "✓ Granted execution permissions to scripts"
 
 install-shellcheck: ## Install ShellCheck automatically if missing
@@ -42,7 +42,7 @@ lint: install-shellcheck ## Run ShellCheck on all .sh scripts
 
 install-hooks: ## Install Git pre-commit hook into .git/hooks
 	@mkdir -p .git/hooks
-	@cp hooks/pre-commit .git/hooks/pre-commit
+	@cp githooks/pre-commit .git/hooks/pre-commit
 	@chmod +x .git/hooks/pre-commit
 	@echo "✓ Git pre-commit hook installed successfully!"
 
