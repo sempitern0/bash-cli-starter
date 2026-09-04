@@ -1,3 +1,7 @@
+🌐 **Read in other languages:** [Español](README_ES.md)
+
+---
+
 # bash-cli-starter
 
 A production-ready, modular template for building robust Bash CLI applications and tools. It comes pre-configured with ShellCheck linting, cross-platform CRLF-to-LF normalization, automated Makefile tasks, and Git pre-commit hooks.
